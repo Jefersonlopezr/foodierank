@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodieRank - Descubre, califica y rankea los mejores restaurantes">
+    <title>FoodieRank - Descubre los Mejores Restaurantes</title>
+
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/home.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">FoodieRank</a>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html" class="nav-link active">Inicio</a>
+                    <a href="pages/restaurants.html" class="nav-link">Restaurantes</a>
+                    <a href="#" class="nav-link" id="myRestaurantsLink" style="display: none;">Mis Restaurantes</a>
+                    <a href="pages/admin.html" class="nav-link" id="adminLink" style="display: none;">Admin</a>
+                </div>
+
+                <div class="nav-actions">
+                    <div id="authButtons">
+                        <a href="pages/login.html" class="btn btn-outline">Iniciar Sesión</a>
+                        <a href="pages/register.html" class="btn btn-primary">Registrarse</a>
+                    </div>
+
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <button class="user-menu-toggle" id="userMenuToggle">
+                            <span class="user-name" id="userName"></span>
+                        </button>
+                        <div class="user-menu-dropdown" id="userMenuDropdown">
+                            <a href="#" class="dropdown-item" id="profileLink">Mi Perfil</a>
+                            <button class="dropdown-item" id="logoutBtn">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Descubre los Mejores Restaurantes</h1>
+                <p class="hero-subtitle">Explora, califica y comparte tus experiencias gastronómicas</p>
+                <div class="hero-actions">
+                    <a href="pages/restaurants.html" class="btn btn-primary btn-lg">Explorar Restaurantes</a>
+                    <a href="#ranking" class="btn btn-outline btn-lg">Ver Ranking</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalRestaurants">-</div>
+                    <div class="stat-label">Restaurantes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalReviews">-</div>
+                    <div class="stat-label">Reseñas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCategories">-</div>
+                    <div class="stat-label">Categorías</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCities">-</div>
+                    <div class="stat-label">Ciudades</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Restaurants Section -->
+    <section class="ranking-section" id="ranking">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Top 10 Restaurantes</h2>
+                <p class="section-subtitle">Los mejores restaurantes según nuestro ranking ponderado</p>
+            </div>
+
+            <div id="rankingLoader" class="loader">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="rankingList" class="ranking-list"></div>
+
+            <div id="rankingError" class="error-message" style="display: none;">
+                <p>No se pudieron cargar los restaurantes. Intenta nuevamente.</p>
+            </div>
+
+            <div class="section-footer">
+                <a href="pages/restaurants.html" class="btn btn-outline">Ver Todos los Restaurantes</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">FoodieRank</h3>
+                    <p class="footer-text">La plataforma definitiva para descubrir y calificar restaurantes.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Navegación</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="pages/restaurants.html">Restaurantes</a></li>
+                        <li><a href="pages/login.html">Iniciar Sesión</a></li>
+                        <li><a href="pages/register.html">Registrarse</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-heading">Proyecto</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" target="_blank">GitHub</a></li>
+                        <li><a href="#" target="_blank">Documentación</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 FoodieRank. Proyecto desarrollado por Jeferson Lopez & Dylan Acevedo</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
