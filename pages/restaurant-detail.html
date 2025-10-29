@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detalle del restaurante - FoodieRank">
+    <title>Restaurante - FoodieRank</title>
+
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/home.css">
+    <link rel="stylesheet" href="../assets/css/restaurants.css">
+    <link rel="stylesheet" href="../assets/css/restaurant-detail.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="../index.html" class="logo">FoodieRank</a>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                    <a href="restaurants.html" class="nav-link">Restaurantes</a>
+                    <a href="#" class="nav-link" id="myRestaurantsLink" style="display: none;">Mis Restaurantes</a>
+                    <a href="admin.html" class="nav-link" id="adminLink" style="display: none;">Admin</a>
+                </div>
+
+                <div class="nav-actions">
+                    <div id="authButtons">
+                        <a href="login.html" class="btn btn-outline">Iniciar Sesión</a>
+                        <a href="register.html" class="btn btn-primary">Registrarse</a>
+                    </div>
+
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <button class="user-menu-toggle" id="userMenuToggle">
+                            <span class="user-name" id="userName"></span>
+                        </button>
+                        <div class="user-menu-dropdown" id="userMenuDropdown">
+                            <a href="#" class="dropdown-item" id="profileLink">Mi Perfil</a>
+                            <button class="dropdown-item" id="logoutBtn">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="restaurantLoader" class="loader">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="restaurantError" class="error-message" style="display: none;">
+            <div class="container">
+                <p>No se pudo cargar el restaurante.</p>
+                <a href="restaurants.html" class="btn btn-primary">Volver a Restaurantes</a>
+            </div>
+        </div>
+
+        <div id="restaurantContent" style="display: none;">
+            <section class="restaurant-hero">
+                <div class="restaurant-hero-image">
+                    <img id="heroImage" src="" alt="" class="hero-img">
+                    <div class="hero-overlay"></div>
+                </div>
+
+                <div class="container hero-content-wrapper">
+                    <div class="hero-info">
+                        <h1 class="hero-title" id="restaurantName"></h1>
+                        <p class="hero-category" id="restaurantCategory"></p>
+
+                        <div class="hero-rating">
+                            <div id="restaurantStars"></div>
+                            <span class="hero-rating-value" id="restaurantRating">0.0</span>
+                            <span class="hero-rating-count" id="restaurantReviewsCount">(0 reseñas)</span>
+                        </div>
+
+                        <div class="hero-meta">
+                            <div class="meta-item">
+                                <strong>Dirección:</strong>
+                                <span id="restaurantAddress"></span>
+                            </div>
+                            <div class="meta-item">
+                                <strong>Ciudad:</strong>
+                                <span id="restaurantCity"></span>
+                            </div>
+                        </div>
+
+                        <div class="hero-actions">
+                            <button class="btn btn-primary" id="addReviewBtn" style="display: none;">Escribir
+                                Reseña</button>
+                            <button class="btn btn-outline" id="addDishBtn" style="display: none;">Agregar
+                                Plato</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container">
+                <section class="restaurant-section">
+                    <h2 class="section-title">Descripción</h2>
+                    <p class="restaurant-description-text" id="restaurantDescription"></p>
+                </section>
+
+                <section class="restaurant-section">
+                    <div class="section-header-with-action">
+                        <h2 class="section-title">Platos</h2>
+                    </div>
+
+                    <div id="dishesLoader" class="loader">
+                        <div class="spinner"></div>
+                    </div>
+
+                    <div id="dishesGrid" class="dishes-grid"></div>
+
+                    <div id="dishesEmpty" class="empty-message" style="display: none;">
+                        <p>No hay platos disponibles</p>
+                    </div>
+                </section>
+
+                <section class="restaurant-section">
+                    <div class="section-header-with-action">
+                        <h2 class="section-title">Reseñas</h2>
+                    </div>
+
+                    <div id="reviewsLoader" class="loader">
+                        <div class="spinner"></div>
+                    </div>
+
+                    <div id="reviewsList" class="reviews-list"></div>
+
+                    <div id="reviewsEmpty" class="empty-message" style="display: none;">
+                        <p>No hay reseñas todavía. ¡Sé el primero en escribir una!</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Agregar Reseña -->
+    <div id="addReviewModal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Escribir Reseña</h2>
+                <button class="modal-close" id="closeReviewModalBtn">&times;</button>
+            </div>
+
+            <form id="addReviewForm" class="modal-form">
+                <div class="form-group">
+                    <label class="form-label">Calificación</label>
+                    <div class="rating-input" id="ratingInput">
+                        <span class="star-input" data-rating="1">★</span>
+                        <span class="star-input" data-rating="2">★</span>
+                        <span class="star-input" data-rating="3">★</span>
+                        <span class="star-input" data-rating="4">★</span>
+                        <span class="star-input" data-rating="5">★</span>
+                    </div>
+                    <input type="hidden" id="reviewRating" required>
+                    <span class="form-error" id="reviewRatingError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewComment" class="form-label">Comentario</label>
+                    <textarea id="reviewComment" class="form-input" rows="5" placeholder="Comparte tu experiencia..."
+                        required></textarea>
+                    <span class="form-error" id="reviewCommentError"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelReviewBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="submitReviewBtn">Publicar Reseña</button>
+                </div>
+
+                <div id="reviewModalError" class="alert alert-error" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Plato -->
+    <div id="addDishModal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Agregar Plato</h2>
+                <button class="modal-close" id="closeDishModalBtn">&times;</button>
+            </div>
+
+            <form id="addDishForm" class="modal-form">
+                <div class="form-group">
+                    <label for="dishName" class="form-label">Nombre del Plato</label>
+                    <input type="text" id="dishName" class="form-input" placeholder="Nombre del plato" required>
+                    <span class="form-error" id="dishNameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="dishDescription" class="form-label">Descripción</label>
+                    <textarea id="dishDescription" class="form-input" rows="3"
+                        placeholder="Describe el plato..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="dishPrice" class="form-label">Precio</label>
+                    <input type="number" id="dishPrice" class="form-input" placeholder="0.00" step="0.01" min="0"
+                        required>
+                    <span class="form-error" id="dishPriceError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="dishImage" class="form-label">URL de Imagen (opcional)</label>
+                    <input type="url" id="dishImage" class="form-input" placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelDishBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="submitDishBtn">Agregar Plato</button>
+                </div>
+
+                <div id="dishModalError" class="alert alert-error" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/restaurant-detail.js"></script>
+</body>
+
+</html>
