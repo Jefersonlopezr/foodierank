@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panel de Administración - FoodieRank">
+    <title>Administración - FoodieRank</title>
+
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/home.css">
+    <link rel="stylesheet" href="../assets/css/restaurants.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="../index.html" class="logo">FoodieRank</a>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                    <a href="restaurants.html" class="nav-link">Restaurantes</a>
+                    <a href="#" class="nav-link" id="myRestaurantsLink">Mis Restaurantes</a>
+                    <a href="admin.html" class="nav-link active">Admin</a>
+                </div>
+
+                <div class="nav-actions">
+                    <div id="userMenu" class="user-menu">
+                        <button class="user-menu-toggle" id="userMenuToggle">
+                            <span class="user-name" id="userName"></span>
+                        </button>
+                        <div class="user-menu-dropdown" id="userMenuDropdown">
+                            <a href="#" class="dropdown-item" id="profileLink">Mi Perfil</a>
+                            <button class="dropdown-item" id="logoutBtn">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Panel de Administración</h1>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="pending">Restaurantes Pendientes</button>
+                <button class="tab-btn" data-tab="categories">Categorías</button>
+                <button class="tab-btn" data-tab="users">Usuarios</button>
+            </div>
+
+            <!-- Pending Restaurants Tab -->
+            <div class="tab-content active" id="pendingTab">
+                <div class="section-header">
+                    <h2 class="section-title">Restaurantes Pendientes de Aprobación</h2>
+                </div>
+
+                <div id="pendingLoader" class="loader">
+                    <div class="spinner"></div>
+                </div>
+
+                <div id="pendingList" class="admin-list"></div>
+
+                <div id="pendingEmpty" class="empty-message" style="display: none;">
+                    <p>No hay restaurantes pendientes de aprobación</p>
+                </div>
+            </div>
+
+            <!-- Categories Tab -->
+            <div class="tab-content" id="categoriesTab">
+                <div class="section-header">
+                    <h2 class="section-title">Gestión de Categorías</h2>
+                    <button class="btn btn-primary" id="addCategoryBtn">Agregar Categoría</button>
+                </div>
+
+                <div id="categoriesLoader" class="loader">
+                    <div class="spinner"></div>
+                </div>
+
+                <div id="categoriesList" class="categories-grid"></div>
+            </div>
+
+            <!-- Users Tab -->
+            <div class="tab-content" id="usersTab">
+                <div class="section-header">
+                    <h2 class="section-title">Gestión de Usuarios</h2>
+                </div>
+
+                <div id="usersLoader" class="loader">
+                    <div class="spinner"></div>
+                </div>
+
+                <div id="usersList" class="admin-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Agregar Categoría -->
+    <div id="addCategoryModal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Agregar Categoría</h2>
+                <button class="modal-close" id="closeCategoryModalBtn">&times;</button>
+            </div>
+
+            <form id="addCategoryForm" class="modal-form">
+                <div class="form-group">
+                    <label for="categoryName" class="form-label">Nombre de la Categoría</label>
+                    <input type="text" id="categoryName" class="form-input" placeholder="Nombre de la categoría"
+                        required>
+                    <span class="form-error" id="categoryNameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="categoryDescription" class="form-label">Descripción</label>
+                    <textarea id="categoryDescription" class="form-input" rows="3"
+                        placeholder="Describe la categoría..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelCategoryBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="submitCategoryBtn">Crear Categoría</button>
+                </div>
+
+                <div id="categoryModalError" class="alert alert-error" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/admin.js"></script>
+</body>
+
+</html>
