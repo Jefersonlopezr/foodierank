@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explora y descubre restaurantes en FoodieRank">
+    <title>Restaurantes - FoodieRank</title>
+
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/home.css">
+    <link rel="stylesheet" href="../assets/css/restaurants.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="../index.html" class="logo">FoodieRank</a>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                    <a href="restaurants.html" class="nav-link active">Restaurantes</a>
+                    <a href="#" class="nav-link" id="myRestaurantsLink" style="display: none;">Mis Restaurantes</a>
+                    <a href="admin.html" class="nav-link" id="adminLink" style="display: none;">Admin</a>
+                </div>
+
+                <div class="nav-actions">
+                    <div id="authButtons">
+                        <a href="login.html" class="btn btn-outline">Iniciar Sesión</a>
+                        <a href="register.html" class="btn btn-primary">Registrarse</a>
+                    </div>
+
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <button class="user-menu-toggle" id="userMenuToggle">
+                            <span class="user-name" id="userName"></span>
+                        </button>
+                        <div class="user-menu-dropdown" id="userMenuDropdown">
+                            <a href="#" class="dropdown-item" id="profileLink">Mi Perfil</a>
+                            <button class="dropdown-item" id="logoutBtn">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Restaurantes</h1>
+                <button class="btn btn-primary" id="addRestaurantBtn" style="display: none;">
+                    Agregar Restaurante
+                </button>
+            </div>
+
+            <div class="filters-section">
+                <div class="search-box">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Buscar restaurante...">
+                </div>
+
+                <div class="filters">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="">Todas las categorías</option>
+                    </select>
+
+                    <select id="cityFilter" class="filter-select">
+                        <option value="">Todas las ciudades</option>
+                    </select>
+
+                    <select id="sortFilter" class="filter-select">
+                        <option value="rating">Mayor calificación</option>
+                        <option value="reviews">Más reseñas</option>
+                        <option value="name">Nombre A-Z</option>
+                        <option value="recent">Más recientes</option>
+                    </select>
+
+                    <button class="btn btn-outline" id="clearFiltersBtn">Limpiar Filtros</button>
+                </div>
+            </div>
+
+            <div class="results-info">
+                <p id="resultsCount">Cargando...</p>
+            </div>
+
+            <div id="restaurantsLoader" class="loader">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="restaurantsGrid" class="restaurants-grid"></div>
+
+            <div id="restaurantsError" class="error-message" style="display: none;">
+                <p>No se pudieron cargar los restaurantes. Intenta nuevamente.</p>
+            </div>
+
+            <div id="paginationContainer" class="pagination" style="display: none;">
+                <button class="pagination-btn" id="prevPageBtn" disabled>Anterior</button>
+                <div class="pagination-info">
+                    Página <span id="currentPage">1</span> de <span id="totalPages">1</span>
+                </div>
+                <button class="pagination-btn" id="nextPageBtn">Siguiente</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="addRestaurantModal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Agregar Restaurante</h2>
+                <button class="modal-close" id="closeModalBtn">&times;</button>
+            </div>
+
+            <form id="addRestaurantForm" class="modal-form">
+                <div class="form-group">
+                    <label for="restaurantName" class="form-label">Nombre del Restaurante</label>
+                    <input type="text" id="restaurantName" class="form-input" placeholder="Nombre del restaurante"
+                        required>
+                    <span class="form-error" id="restaurantNameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="restaurantDescription" class="form-label">Descripción</label>
+                    <textarea id="restaurantDescription" class="form-input" rows="4"
+                        placeholder="Describe el restaurante..." required></textarea>
+                    <span class="form-error" id="restaurantDescriptionError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="restaurantCategory" class="form-label">Categoría</label>
+                    <select id="restaurantCategory" class="form-input" required>
+                        <option value="">Selecciona una categoría</option>
+                    </select>
+                    <span class="form-error" id="restaurantCategoryError"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="restaurantAddress" class="form-label">Dirección</label>
+                        <input type="text" id="restaurantAddress" class="form-input" placeholder="Dirección completa"
+                            required>
+                        <span class="form-error" id="restaurantAddressError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="restaurantCity" class="form-label">Ciudad</label>
+                        <input type="text" id="restaurantCity" class="form-input" placeholder="Ciudad" required>
+                        <span class="form-error" id="restaurantCityError"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="restaurantImage" class="form-label">URL de Imagen (opcional)</label>
+                    <input type="url" id="restaurantImage" class="form-input"
+                        placeholder="https://example.com/image.jpg">
+                    <span class="form-error" id="restaurantImageError"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelModalBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="submitRestaurantBtn">Crear Restaurante</button>
+                </div>
+
+                <div id="modalError" class="alert alert-error" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/restaurants.js"></script>
+</body>
+
+</html>
