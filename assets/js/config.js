@@ -1,7 +1,9 @@
 const CONFIG = {
   // API Configuration
   API: {
-    BASE_URL: 'http://localhost:3000/api/v1',
+    BASE_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:3000/api/v1'
+      : 'https://backend-foodierank.onrender.com/api/v1',
     TIMEOUT: 30000, // 30 seconds
     RETRY_ATTEMPTS: 3
   },
