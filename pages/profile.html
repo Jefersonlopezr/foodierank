@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mi Perfil - FoodieRank">
+    <title>Mi Perfil - FoodieRank</title>
+
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/home.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="../index.html" class="logo">FoodieRank</a>
+
+                <div class="nav-links" id="navLinks">
+                    <a href="../index.html" class="nav-link">Inicio</a>
+                    <a href="restaurants.html" class="nav-link">Restaurantes</a>
+                    <a href="#" class="nav-link" id="myRestaurantsLink">Mis Restaurantes</a>
+                    <a href="admin.html" class="nav-link" id="adminLink" style="display: none;">Admin</a>
+                </div>
+
+                <div class="nav-actions">
+                    <div id="userMenu" class="user-menu">
+                        <button class="user-menu-toggle" id="userMenuToggle">
+                            <span class="user-name" id="userName"></span>
+                        </button>
+                        <div class="user-menu-dropdown" id="userMenuDropdown">
+                            <a href="profile.html" class="dropdown-item active" id="profileLink">Mi Perfil</a>
+                            <button class="dropdown-item" id="logoutBtn">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Mi Perfil</h1>
+            </div>
+
+            <div id="profileLoader" class="loader" style="display: none;">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="profileContent" style="display: none;">
+                <div class="auth-card" style="max-width: 600px; margin: 0 auto;">
+                    <div class="profile-header" style="text-align: center; margin-bottom: 2rem;">
+                        <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; margin: 0 auto 1rem;">
+                            <span id="userInitial"></span>
+                        </div>
+                        <h2 id="profileUsername" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></h2>
+                        <p id="profileEmail" style="color: var(--color-text-secondary);"></p>
+                        <p style="margin-top: 0.5rem;">
+                            <span id="profileRole" style="padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 500;"></span>
+                        </p>
+                    </div>
+
+                    <div class="profile-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                        <div style="text-align: center; padding: 1rem; background: var(--color-bg-secondary); border-radius: 0.5rem;">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--color-primary);" id="userReviewsCount">0</div>
+                            <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Reseñas</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: var(--color-bg-secondary); border-radius: 0.5rem;">
+                            <div style="font-size: 2rem; font-weight: bold; color: var(--color-primary);" id="userRestaurantsCount">0</div>
+                            <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Restaurantes</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-info">
+                        <h3 style="font-size: 1.25rem; margin-bottom: 1rem; border-bottom: 2px solid var(--color-border-primary); padding-bottom: 0.5rem;">Información de la Cuenta</h3>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="color: var(--color-text-secondary); font-size: 0.875rem; margin-bottom: 0.25rem;">Nombre de Usuario</div>
+                            <div style="font-weight: 500;" id="displayUsername"></div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="color: var(--color-text-secondary); font-size: 0.875rem; margin-bottom: 0.25rem;">Email</div>
+                            <div style="font-weight: 500;" id="displayEmail"></div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="color: var(--color-text-secondary); font-size: 0.875rem; margin-bottom: 0.25rem;">Rol</div>
+                            <div style="font-weight: 500;" id="displayRole"></div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="color: var(--color-text-secondary); font-size: 0.875rem; margin-bottom: 0.25rem;">Miembro desde</div>
+                            <div style="font-weight: 500;" id="memberSince"></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--color-border-primary);">
+                        <button class="btn btn-primary btn-block" onclick="window.location.href='restaurants.html'" style="margin-bottom: 0.5rem;">
+                            Explorar Restaurantes
+                        </button>
+                        <button class="btn btn-outline btn-block" id="editProfileBtn">
+                            Editar Perfil (Próximamente)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="profileError" class="error-message" style="display: none; text-align: center; padding: 2rem;">
+                <p>Error al cargar el perfil. Por favor, intenta nuevamente.</p>
+                <button class="btn btn-primary" onclick="location.reload()">Reintentar</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Require authentication
+            if (!AuthService.requireAuth()) {
+                return;
+            }
+
+            initAuth();
+            initMobileMenu();
+            await loadProfile();
+        });
+
+        function initAuth() {
+            const userMenu = document.getElementById('userMenu');
+            const userName = document.getElementById('userName');
+            const myRestaurantsLink = document.getElementById('myRestaurantsLink');
+            const adminLink = document.getElementById('adminLink');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userMenuToggle = document.getElementById('userMenuToggle');
+            const userMenuDropdown = document.getElementById('userMenuDropdown');
+
+            const user = AuthService.getUser();
+
+            if (userName) userName.textContent = user.username;
+            if (myRestaurantsLink) myRestaurantsLink.style.display = 'block';
+
+            if (user.role === 'admin' && adminLink) {
+                adminLink.style.display = 'block';
+            }
+
+            if (userMenuToggle && userMenuDropdown) {
+                userMenuToggle.addEventListener('click', () => {
+                    userMenuDropdown.classList.toggle('show');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!userMenu.contains(e.target)) {
+                        userMenuDropdown.classList.remove('show');
+                    }
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    AuthService.logout();
+                });
+            }
+
+            // Edit profile button (disabled for now)
+            const editProfileBtn = document.getElementById('editProfileBtn');
+            if (editProfileBtn) {
+                editProfileBtn.addEventListener('click', () => {
+                    Utils.showToast('Esta función estará disponible próximamente', 'info');
+                });
+            }
+        }
+
+        function initMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            if (mobileMenuToggle && navLinks) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('show');
+                    mobileMenuToggle.classList.toggle('active');
+                });
+            }
+        }
+
+        async function loadProfile() {
+            const loader = document.getElementById('profileLoader');
+            const content = document.getElementById('profileContent');
+            const error = document.getElementById('profileError');
+
+            try {
+                loader.style.display = 'flex';
+                error.style.display = 'none';
+
+                const user = AuthService.getUser();
+
+                // Display user information
+                document.getElementById('userInitial').textContent = user.username.charAt(0).toUpperCase();
+                document.getElementById('profileUsername').textContent = user.username;
+                document.getElementById('profileEmail').textContent = user.email;
+
+                const roleElement = document.getElementById('profileRole');
+                const roleText = user.role === 'admin' ? 'Administrador' : 'Usuario';
+                roleElement.textContent = roleText;
+                roleElement.style.background = user.role === 'admin' ? 'rgba(139, 92, 246, 0.1)' : 'rgba(163, 163, 163, 0.1)';
+                roleElement.style.color = user.role === 'admin' ? 'var(--color-primary)' : 'var(--color-text-secondary)';
+
+                document.getElementById('displayUsername').textContent = user.username;
+                document.getElementById('displayEmail').textContent = user.email;
+                document.getElementById('displayRole').textContent = roleText;
+                document.getElementById('memberSince').textContent = Utils.formatDate(user.createdAt);
+
+                // TODO: Load user stats from API when available
+                // For now, show placeholder values
+                document.getElementById('userReviewsCount').textContent = '0';
+                document.getElementById('userRestaurantsCount').textContent = '0';
+
+                content.style.display = 'block';
+            } catch (err) {
+                console.error('Error loading profile:', err);
+                error.style.display = 'block';
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

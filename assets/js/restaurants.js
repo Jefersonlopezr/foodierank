@@ -24,6 +24,7 @@ function initAuth() {
     const userName = document.getElementById('userName');
     const myRestaurantsLink = document.getElementById('myRestaurantsLink');
     const adminLink = document.getElementById('adminLink');
+    const profileLink = document.getElementById('profileLink');
     const addRestaurantBtn = document.getElementById('addRestaurantBtn');
     const logoutBtn = document.getElementById('logoutBtn');
     const userMenuToggle = document.getElementById('userMenuToggle');
@@ -51,6 +52,13 @@ function initAuth() {
                 if (!userMenu.contains(e.target)) {
                     userMenuDropdown.classList.remove('show');
                 }
+            });
+        }
+
+        if (profileLink) {
+            profileLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'profile.html';
             });
         }
 
