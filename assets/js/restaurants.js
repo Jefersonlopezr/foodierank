@@ -308,14 +308,18 @@ function initModal() {
     if (addRestaurantBtn) {
         addRestaurantBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
         });
     }
 
     function closeModal() {
         if (modal) {
-            modal.style.display = 'none';
-            addRestaurantForm?.reset();
-            document.getElementById('modalError').style.display = 'none';
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                addRestaurantForm?.reset();
+                document.getElementById('modalError').style.display = 'none';
+            }, 300);
         }
     }
 
@@ -353,8 +357,12 @@ async function handleCreateRestaurant() {
 
         if (response.success) {
             Utils.showToast('Restaurante creado correctamente. Pendiente de aprobación.', 'success');
-            document.getElementById('addRestaurantModal').style.display = 'none';
-            document.getElementById('addRestaurantForm').reset();
+            const modal = document.getElementById('addRestaurantModal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('addRestaurantForm').reset();
+            }, 300);
             await loadRestaurants();
         }
     } catch (error) {

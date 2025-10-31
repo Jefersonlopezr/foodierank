@@ -1,10 +1,5 @@
 const API = {
-  /**
-   * Make HTTP request to API
-   * @param {string} endpoint - API endpoint (without base URL)
-   * @param {Object} options - Fetch options
-   * @returns {Promise<Object>} Response data
-   */
+  // Realiza petición HTTP a la API
   async request(endpoint, options = {}) {
     const url = `${CONFIG.API.BASE_URL}${endpoint}`;
 
@@ -49,24 +44,14 @@ const API = {
     }
   },
 
-  /**
-   * GET request
-   * @param {string} endpoint - API endpoint
-   * @param {Object} params - Query parameters
-   * @returns {Promise<Object>} Response data
-   */
+  // Petición GET
   async get(endpoint, params = {}) {
     const queryString = new URLSearchParams(params).toString();
     const url = queryString ? `${endpoint}?${queryString}` : endpoint;
     return this.request(url, { method: 'GET' });
   },
 
-  /**
-   * POST request
-   * @param {string} endpoint - API endpoint
-   * @param {Object} data - Request body
-   * @returns {Promise<Object>} Response data
-   */
+  // Petición POST
   async post(endpoint, data = {}) {
     return this.request(endpoint, {
       method: 'POST',
@@ -74,12 +59,7 @@ const API = {
     });
   },
 
-  /**
-   * PUT request
-   * @param {string} endpoint - API endpoint
-   * @param {Object} data - Request body
-   * @returns {Promise<Object>} Response data
-   */
+  // Petición PUT
   async put(endpoint, data = {}) {
     return this.request(endpoint, {
       method: 'PUT',
@@ -87,12 +67,7 @@ const API = {
     });
   },
 
-  /**
-   * PATCH request
-   * @param {string} endpoint - API endpoint
-   * @param {Object} data - Request body
-   * @returns {Promise<Object>} Response data
-   */
+  // Petición PATCH
   async patch(endpoint, data = {}) {
     return this.request(endpoint, {
       method: 'PATCH',
@@ -100,11 +75,7 @@ const API = {
     });
   },
 
-  /**
-   * DELETE request
-   * @param {string} endpoint - API endpoint
-   * @returns {Promise<Object>} Response data
-   */
+  // Petición DELETE
   async delete(endpoint) {
     return this.request(endpoint, { method: 'DELETE' });
   },

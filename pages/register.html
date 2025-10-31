@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../assets/css/variables.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="../assets/css/icons.css">
 </head>
 
 <body class="auth-page">
@@ -53,7 +54,7 @@
                             placeholder="Crea una contraseña segura" required autocomplete="new-password" minlength="8">
                         <button type="button" class="toggle-password" id="togglePassword"
                             aria-label="Mostrar contraseña">
-                            <span class="eye-icon">👁️</span>
+                            <span class="icon icon-eye"></span>
                         </button>
                     </div>
                     <span class="form-hint">Mínimo 8 caracteres, incluye mayúscula, minúscula y número</span>
@@ -68,7 +69,7 @@
                             placeholder="Repite tu contraseña" required autocomplete="new-password">
                         <button type="button" class="toggle-password" id="toggleConfirmPassword"
                             aria-label="Mostrar contraseña">
-                            <span class="eye-icon">👁️</span>
+                            <span class="icon icon-eye"></span>
                         </button>
                     </div>
                     <span class="form-error" id="confirmPasswordError"></span>
@@ -122,13 +123,27 @@
             togglePasswordBtn.addEventListener('click', () => {
                 const type = passwordInput.type === 'password' ? 'text' : 'password';
                 passwordInput.type = type;
-                togglePasswordBtn.querySelector('.eye-icon').textContent = type === 'password' ? '👁️' : '🙈';
+                const icon = togglePasswordBtn.querySelector('.icon');
+                if (type === 'password') {
+                    icon.classList.remove('icon-eye-off');
+                    icon.classList.add('icon-eye');
+                } else {
+                    icon.classList.remove('icon-eye');
+                    icon.classList.add('icon-eye-off');
+                }
             });
 
             toggleConfirmPasswordBtn.addEventListener('click', () => {
                 const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
                 confirmPasswordInput.type = type;
-                toggleConfirmPasswordBtn.querySelector('.eye-icon').textContent = type === 'password' ? '👁️' : '🙈';
+                const iconConfirm = toggleConfirmPasswordBtn.querySelector('.icon');
+                if (type === 'password') {
+                    iconConfirm.classList.remove('icon-eye-off');
+                    iconConfirm.classList.add('icon-eye');
+                } else {
+                    iconConfirm.classList.remove('icon-eye');
+                    iconConfirm.classList.add('icon-eye-off');
+                }
             });
 
             // Form validation

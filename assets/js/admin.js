@@ -272,14 +272,18 @@ function initCategoryModal() {
     if (addCategoryBtn) {
         addCategoryBtn.addEventListener('click', () => {
             modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
         });
     }
 
     function closeModal() {
         if (modal) {
-            modal.style.display = 'none';
-            form?.reset();
-            document.getElementById('categoryModalError').style.display = 'none';
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                form?.reset();
+                document.getElementById('categoryModalError').style.display = 'none';
+            }, 300);
         }
     }
 
@@ -311,8 +315,12 @@ async function handleCreateCategory() {
 
         if (response.success) {
             Utils.showToast('Categoría creada correctamente', 'success');
-            document.getElementById('addCategoryModal').style.display = 'none';
-            document.getElementById('addCategoryForm').reset();
+            const modal = document.getElementById('addCategoryModal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('addCategoryForm').reset();
+            }, 300);
             await loadCategories();
         }
     } catch (error) {

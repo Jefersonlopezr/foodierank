@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../assets/css/variables.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
+    <link rel="stylesheet" href="../assets/css/icons.css">
 </head>
 
 <body class="auth-page">
@@ -43,7 +44,7 @@
                             placeholder="Ingresa tu contraseña" required autocomplete="current-password">
                         <button type="button" class="toggle-password" id="togglePassword"
                             aria-label="Mostrar contraseña">
-                            <span class="eye-icon">👁️</span>
+                            <span class="icon icon-eye"></span>
                         </button>
                     </div>
                     <span class="form-error" id="passwordError"></span>
@@ -95,7 +96,14 @@
             togglePasswordBtn.addEventListener('click', () => {
                 const type = passwordInput.type === 'password' ? 'text' : 'password';
                 passwordInput.type = type;
-                togglePasswordBtn.querySelector('.eye-icon').textContent = type === 'password' ? '👁️' : '🙈';
+                const icon = togglePasswordBtn.querySelector('.icon');
+                if (type === 'password') {
+                    icon.classList.remove('icon-eye-off');
+                    icon.classList.add('icon-eye');
+                } else {
+                    icon.classList.remove('icon-eye');
+                    icon.classList.add('icon-eye-off');
+                }
             });
 
             // Form validation

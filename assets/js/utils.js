@@ -1,9 +1,5 @@
 const Utils = {
-  /**
-   * Format date to readable string
-   * @param {string|Date} date - Date to format
-   * @returns {string} Formatted date string
-   */
+  // Formatea fecha a string legible
   formatDate(date) {
     if (!date) return 'N/A';
     const d = new Date(date);
@@ -11,11 +7,7 @@ const Utils = {
     return d.toLocaleDateString('es-ES', options);
   },
 
-  /**
-   * Format relative time (e.g., "hace 2 días")
-   * @param {string|Date} date - Date to format
-   * @returns {string} Relative time string
-   */
+  // Formatea tiempo relativo (ej: "hace 2 días")
   formatRelativeTime(date) {
     if (!date) return 'N/A';
     const d = new Date(date);
@@ -31,44 +23,26 @@ const Utils = {
     return `Hace ${Math.floor(diffDays / 365)} años`;
   },
 
-  /**
-   * Format price with currency
-   * @param {number} price - Price to format
-   * @returns {string} Formatted price string
-   */
+  // Formatea precio con moneda
   formatPrice(price) {
     if (price === null || price === undefined) return 'N/A';
     return `$${price.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   },
 
-  /**
-   * Format rating with decimal
-   * @param {number} rating - Rating to format
-   * @returns {string} Formatted rating string
-   */
+  // Formatea rating con decimal
   formatRating(rating) {
     if (rating === null || rating === undefined) return '0.0';
     return rating.toFixed(1);
   },
 
-  /**
-   * Truncate text to specified length
-   * @param {string} text - Text to truncate
-   * @param {number} maxLength - Maximum length
-   * @returns {string} Truncated text
-   */
+  // Trunca texto a longitud especificada
   truncateText(text, maxLength = 100) {
     if (!text) return '';
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + '...';
   },
 
-  /**
-   * Debounce function to limit execution rate
-   * @param {Function} func - Function to debounce
-   * @param {number} wait - Wait time in milliseconds
-   * @returns {Function} Debounced function
-   */
+  // Función debounce para limitar tasa de ejecución
   debounce(func, wait = CONFIG.UI.DEBOUNCE_DELAY) {
     let timeout;
     return function executedFunction(...args) {
@@ -81,21 +55,13 @@ const Utils = {
     };
   },
 
-  /**
-   * Validate email format
-   * @param {string} email - Email to validate
-   * @returns {boolean} True if valid
-   */
+  // Valida formato de email
   isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   },
 
-  /**
-   * Validate URL format
-   * @param {string} url - URL to validate
-   * @returns {boolean} True if valid
-   */
+  // Valida formato de URL
   isValidUrl(url) {
     try {
       new URL(url);
@@ -105,12 +71,7 @@ const Utils = {
     }
   },
 
-  /**
-   * Generate star rating HTML
-   * @param {number} rating - Rating value (0-5)
-   * @param {boolean} interactive - Whether stars are clickable
-   * @returns {string} HTML string for stars
-   */
+  // Genera HTML de estrellas de rating
   generateStars(rating, interactive = false) {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
@@ -137,22 +98,14 @@ const Utils = {
     return html;
   },
 
-  /**
-   * Sanitize HTML to prevent XSS
-   * @param {string} text - Text to sanitize
-   * @returns {string} Sanitized text
-   */
+  // Sanitiza HTML para prevenir XSS
   sanitizeHTML(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
   },
 
-  /**
-   * Show notification toast
-   * @param {string} message - Message to display
-   * @param {string} type - Type of notification (success, error, info, warning)
-   */
+  // Muestra notificación toast
   showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
@@ -170,11 +123,7 @@ const Utils = {
     }, CONFIG.UI.TOAST_DURATION);
   },
 
-  /**
-   * Show loading spinner
-   * @param {HTMLElement} container - Container element
-   * @returns {HTMLElement} Loader element
-   */
+  // Muestra spinner de carga
   showLoader(container) {
     const loader = document.createElement('div');
     loader.className = 'loader';
@@ -187,20 +136,14 @@ const Utils = {
     return loader;
   },
 
-  /**
-   * Remove loading spinner
-   * @param {HTMLElement} loader - Loader element to remove
-   */
+  // Remueve spinner de carga
   hideLoader(loader) {
     if (loader && loader.parentNode) {
       loader.parentNode.removeChild(loader);
     }
   },
 
-  /**
-   * Parse query parameters from URL
-   * @returns {Object} Object with query parameters
-   */
+  // Obtiene parámetros de query de URL
   getQueryParams() {
     const params = {};
     const searchParams = new URLSearchParams(window.location.search);
@@ -212,10 +155,7 @@ const Utils = {
     return params;
   },
 
-  /**
-   * Update URL with query parameters without reload
-   * @param {Object} params - Parameters to add to URL
-   */
+  // Actualiza URL con parámetros de query sin recargar
   updateQueryParams(params) {
     const url = new URL(window.location.href);
 
@@ -230,11 +170,7 @@ const Utils = {
     window.history.pushState({}, '', url);
   },
 
-  /**
-   * Get placeholder image URL
-   * @param {string} type - Type of placeholder (restaurant, dish, user)
-   * @returns {string} Placeholder image URL
-   */
+  // Obtiene URL de imagen placeholder
   getPlaceholderImage(type = 'restaurant') {
     const placeholders = {
       restaurant: 'https://via.placeholder.com/400x300/2a2a2a/ffffff?text=Restaurant',
@@ -245,19 +181,13 @@ const Utils = {
     return placeholders[type] || placeholders.restaurant;
   },
 
-  /**
-   * Handle image load error with placeholder
-   * @param {HTMLImageElement} img - Image element
-   * @param {string} type - Type of placeholder
-   */
+  // Maneja error de carga de imagen con placeholder
   handleImageError(img, type = 'restaurant') {
     img.src = this.getPlaceholderImage(type);
     img.classList.add('placeholder-image');
   },
 
-  /**
-   * Scroll to top of page smoothly
-   */
+  // Scroll al inicio de la página suavemente
   scrollToTop() {
     window.scrollTo({
       top: 0,
@@ -265,19 +195,12 @@ const Utils = {
     });
   },
 
-  /**
-   * Check if user is on mobile device
-   * @returns {boolean} True if mobile
-   */
+  // Verifica si el usuario está en dispositivo móvil
   isMobile() {
     return window.innerWidth <= 768;
   },
 
-  /**
-   * Copy text to clipboard
-   * @param {string} text - Text to copy
-   * @returns {Promise} Promise that resolves when copied
-   */
+  // Copia texto al portapapeles
   async copyToClipboard(text) {
     try {
       await navigator.clipboard.writeText(text);

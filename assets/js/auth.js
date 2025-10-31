@@ -1,25 +1,16 @@
 const AuthService = {
-  /**
-   * Get stored authentication token
-   * @returns {string|null} JWT token
-   */
+  // Obtiene token de autenticación almacenado
   getToken() {
     return localStorage.getItem(CONFIG.AUTH.TOKEN_KEY);
   },
 
-  /**
-   * Get stored user data
-   * @returns {Object|null} User object
-   */
+  // Obtiene datos de usuario almacenados
   getUser() {
     const userData = localStorage.getItem(CONFIG.AUTH.USER_KEY);
     return userData ? JSON.parse(userData) : null;
   },
 
-  /**
-   * Check if user is authenticated
-   * @returns {boolean} True if authenticated
-   */
+  // Verifica si el usuario está autenticado
   isAuthenticated() {
     const token = this.getToken();
     if (!token) return false;
@@ -34,20 +25,13 @@ const AuthService = {
     return true;
   },
 
-  /**
-   * Check if user is admin
-   * @returns {boolean} True if user is admin
-   */
+  // Verifica si el usuario es administrador
   isAdmin() {
     const user = this.getUser();
     return user && user.role === 'admin';
   },
 
-  /**
-   * Store authentication data
-   * @param {string} token - JWT token
-   * @param {Object} user - User object
-   */
+  // Almacena datos de autenticación
   storeAuth(token, user) {
     localStorage.setItem(CONFIG.AUTH.TOKEN_KEY, token);
     localStorage.setItem(CONFIG.AUTH.USER_KEY, JSON.stringify(user));
@@ -57,11 +41,7 @@ const AuthService = {
     localStorage.setItem(CONFIG.AUTH.TOKEN_EXPIRY_KEY, expiryTime.toString());
   },
 
-  /**
-   * Register new user
-   * @param {Object} userData - User registration data
-   * @returns {Promise<Object>} Response with token and user
-   */
+  // Registra nuevo usuario
   async register(userData) {
     try {
       const response = await API.auth.register(userData);
@@ -77,11 +57,7 @@ const AuthService = {
     }
   },
 
-  /**
-   * Login user
-   * @param {Object} credentials - Login credentials (email/username and password)
-   * @returns {Promise<Object>} Response with token and user
-   */
+  // Inicia sesión de usuario
   async login(credentials) {
     try {
       const response = await API.auth.login(credentials);
@@ -97,9 +73,7 @@ const AuthService = {
     }
   },
 
-  /**
-   * Logout user
-   */
+  // Cierra sesión de usuario
   logout() {
     localStorage.removeItem(CONFIG.AUTH.TOKEN_KEY);
     localStorage.removeItem(CONFIG.AUTH.USER_KEY);
@@ -109,10 +83,7 @@ const AuthService = {
     window.location.href = '/pages/login.html';
   },
 
-  /**
-   * Get user profile from API
-   * @returns {Promise<Object>} User profile data
-   */
+  // Obtiene perfil de usuario desde API
   async getProfile() {
     try {
       const response = await API.auth.getProfile();
@@ -129,11 +100,7 @@ const AuthService = {
     }
   },
 
-  /**
-   * Update user profile
-   * @param {Object} data - Profile data to update
-   * @returns {Promise<Object>} Updated user data
-   */
+  // Actualiza perfil de usuario
   async updateProfile(data) {
     try {
       const response = await API.auth.updateProfile(data);
@@ -150,9 +117,7 @@ const AuthService = {
     }
   },
 
-  /**
-   * Require authentication - redirect to login if not authenticated
-   */
+  // Requiere autenticación - redirige a login si no está autenticado
   requireAuth() {
     if (!this.isAuthenticated()) {
       window.location.href = '/pages/login.html';
@@ -161,9 +126,7 @@ const AuthService = {
     return true;
   },
 
-  /**
-   * Require admin role - redirect if not admin
-   */
+  // Requiere rol de administrador - redirige si no es admin
   requireAdmin() {
     if (!this.requireAuth()) return false;
 
@@ -176,9 +139,7 @@ const AuthService = {
     return true;
   },
 
-  /**
-   * Initialize auth state on page load
-   */
+  // Inicializa estado de autenticación al cargar página
   init() {
     // Check if token is expired
     if (this.getToken() && !this.isAuthenticated()) {
