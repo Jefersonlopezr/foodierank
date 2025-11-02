@@ -106,8 +106,13 @@ async function loadTopRanking() {
 
         const response = await API.restaurants.getRanking({ limit: 10 });
 
-        if (response.success && response.data.restaurants) {
-            const restaurants = response.data.restaurants;
+        console.log('Ranking response:', response);
+
+        // El backend devuelve 'ranking' no 'restaurants'
+        if (response.success && response.data.ranking) {
+            const restaurants = response.data.ranking;
+
+            console.log('Restaurants:', restaurants);
 
             if (restaurants.length === 0) {
                 rankingList.innerHTML = '<p class="error-message">No hay restaurantes disponibles</p>';
@@ -116,6 +121,9 @@ async function loadTopRanking() {
                     createRankingCard(restaurant, index + 1)
                 ).join('');
             }
+        } else {
+            console.error('Response structure incorrect:', response);
+            rankingList.innerHTML = '<p class="error-message">No hay restaurantes disponibles</p>';
         }
     } catch (error) {
         console.error('Error loading ranking:', error);
