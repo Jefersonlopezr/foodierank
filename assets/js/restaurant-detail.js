@@ -397,6 +397,22 @@ async function handleCreateReview() {
         return;
     }
 
+    // Validación de longitud del comentario
+    if (!data.comment || data.comment.length < 10) {
+        modalError.textContent = 'El comentario debe tener al menos 10 caracteres';
+        modalError.style.display = 'block';
+        return;
+    }
+
+    if (data.comment.length > 500) {
+        modalError.textContent = 'El comentario no puede exceder 500 caracteres';
+        modalError.style.display = 'block';
+        return;
+    }
+
+    console.log('Datos a enviar:', data);
+    console.log('Restaurant ID:', restaurantId);
+
     submitBtn.disabled = true;
     submitBtn.textContent = 'Publicando...';
     modalError.style.display = 'none';
