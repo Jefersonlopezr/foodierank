@@ -14,12 +14,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
+    // Primero inicializar los modales
+    initReviewModal();
+    initDishModal();
+
+    // Luego cargar el restaurante (que mostrará los botones)
     await loadRestaurant();
     await loadDishes();
     await loadReviews();
-
-    initReviewModal();
-    initDishModal();
 });
 
 function initAuth() {
@@ -39,7 +41,10 @@ function initAuth() {
         if (authButtons) authButtons.style.display = 'none';
         if (userMenu) userMenu.style.display = 'block';
         if (userName) userName.textContent = user.username;
-        if (myRestaurantsLink) myRestaurantsLink.style.display = 'block';
+        if (myRestaurantsLink) {
+            myRestaurantsLink.style.display = 'block';
+            myRestaurantsLink.href = `restaurants.html?owner=${user.id}`;
+        }
 
         if (user.role === 'admin' && adminLink) {
             adminLink.style.display = 'block';
@@ -139,11 +144,20 @@ function checkUserPermissions(restaurant) {
     const addReviewBtn = document.getElementById('addReviewBtn');
     const addDishBtn = document.getElementById('addDishBtn');
 
+    // Obtener el ID del usuario (puede ser 'id' o '_id')
+    const userId = user.id || user._id;
+
+    // Mostrar botón de reseña si el restaurante está aprobado
     if (addReviewBtn && restaurant.isApproved) {
         addReviewBtn.style.display = 'block';
     }
 
-    if (addDishBtn && (user.role === 'admin' || restaurant.createdBy === user.id)) {
+    // Mostrar botón de agregar plato si es admin o es el dueño del restaurante
+    // Convertir ambos a string para comparar
+    const restaurantOwnerId = String(restaurant.createdBy);
+    const currentUserId = String(userId);
+
+    if (addDishBtn && (user.role === 'admin' || restaurantOwnerId === currentUserId)) {
         addDishBtn.style.display = 'block';
     }
 }
@@ -301,21 +315,34 @@ function initReviewModal() {
     const ratingInput = document.getElementById('ratingInput');
 
     if (addReviewBtn) {
-        addReviewBtn.addEventListener('click', () => {
+        addReviewBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
             if (!AuthService.isAuthenticated()) {
                 Utils.showToast('Debes iniciar sesión', 'warning');
                 window.location.href = 'login.html';
                 return;
             }
-            modal.style.display = 'flex';
-            selectedRating = 0;
-            updateRatingStars();
+
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.style.visibility = 'visible';
+                modal.style.opacity = '1';
+                modal.style.position = 'fixed';
+                modal.style.zIndex = '10000';
+                document.body.style.overflow = 'hidden';
+                selectedRating = 0;
+                updateRatingStars();
+            }
         });
     }
 
     function closeModal() {
         if (modal) {
             modal.style.display = 'none';
+            modal.style.visibility = 'hidden';
+            modal.style.opacity = '0';
+            document.body.style.overflow = '';
             form?.reset();
             selectedRating = 0;
             updateRatingStars();
@@ -404,14 +431,26 @@ function initDishModal() {
     const overlay = modal?.querySelector('.modal-overlay');
 
     if (addDishBtn) {
-        addDishBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
+        addDishBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.style.visibility = 'visible';
+                modal.style.opacity = '1';
+                modal.style.position = 'fixed';
+                modal.style.zIndex = '10000';
+                document.body.style.overflow = 'hidden';
+            }
         });
     }
 
     function closeModal() {
         if (modal) {
             modal.style.display = 'none';
+            modal.style.visibility = 'hidden';
+            modal.style.opacity = '0';
+            document.body.style.overflow = '';
             form?.reset();
             document.getElementById('dishModalError').style.display = 'none';
         }

@@ -150,9 +150,13 @@
             const userMenuDropdown = document.getElementById('userMenuDropdown');
 
             const user = AuthService.getUser();
+            const userId = user.id || user._id;  // Soporte para ambos campos
 
             if (userName) userName.textContent = user.username;
-            if (myRestaurantsLink) myRestaurantsLink.style.display = 'block';
+            if (myRestaurantsLink) {
+                myRestaurantsLink.style.display = 'block';
+                myRestaurantsLink.href = `restaurants.html?owner=${userId}`;
+            }
 
             if (user.role === 'admin' && adminLink) {
                 adminLink.style.display = 'block';
@@ -197,6 +201,34 @@
             }
         }
 
+        async function loadUserStats(userId) {
+            try {
+                // Obtener restaurantes del usuario
+                const restaurantsResponse = await API.restaurants.getAll({
+                    createdBy: userId,
+                    limit: 1000,
+                    isApproved: 'all'
+                });
+
+                const restaurantsCount = restaurantsResponse.success &&
+                                        restaurantsResponse.data &&
+                                        restaurantsResponse.data.restaurants
+                    ? restaurantsResponse.data.restaurants.length
+                    : 0;
+
+                // Actualizar contador de restaurantes
+                document.getElementById('userRestaurantsCount').textContent = restaurantsCount;
+
+                // TODO: Actualizar contador de reseñas cuando el backend tenga el endpoint
+                document.getElementById('userReviewsCount').textContent = '0';
+
+            } catch (error) {
+                console.error('Error loading user stats:', error);
+                document.getElementById('userRestaurantsCount').textContent = '0';
+                document.getElementById('userReviewsCount').textContent = '0';
+            }
+        }
+
         async function loadProfile() {
             const loader = document.getElementById('profileLoader');
             const content = document.getElementById('profileContent');
@@ -224,10 +256,8 @@
                 document.getElementById('displayRole').textContent = roleText;
                 document.getElementById('memberSince').textContent = Utils.formatDate(user.createdAt);
 
-                // TODO: Load user stats from API when available
-                // For now, show placeholder values
-                document.getElementById('userReviewsCount').textContent = '0';
-                document.getElementById('userRestaurantsCount').textContent = '0';
+                // Load user stats from API
+                await loadUserStats(user.id || user._id);
 
                 content.style.display = 'block';
             } catch (err) {

@@ -22,7 +22,10 @@ function initAuth() {
         if (authButtons) authButtons.style.display = 'none';
         if (userMenu) userMenu.style.display = 'block';
         if (userName) userName.textContent = user.username;
-        if (myRestaurantsLink) myRestaurantsLink.style.display = 'block';
+        if (myRestaurantsLink) {
+            myRestaurantsLink.style.display = 'block';
+            myRestaurantsLink.href = `pages/restaurants.html?owner=${user.id}`;
+        }
 
         if (user.role === 'admin' && adminLink) {
             adminLink.style.display = 'block';
@@ -72,10 +75,10 @@ function initMobileMenu() {
 
 async function loadStats() {
     try {
-        const stats = await API.restaurants.getStats();
+        const response = await API.restaurants.getStats();
 
-        if (stats.success && stats.data) {
-            const { totalRestaurants, totalReviews, totalCategories, totalCities } = stats.data;
+        if (response.success && response.data && response.data.stats) {
+            const { totalRestaurants, totalReviews, totalCategories, totalCities } = response.data.stats;
 
             document.getElementById('totalRestaurants').textContent = totalRestaurants || 0;
             document.getElementById('totalReviews').textContent = totalReviews || 0;
@@ -84,6 +87,11 @@ async function loadStats() {
         }
     } catch (error) {
         console.error('Error loading stats:', error);
+        // Set default values on error
+        document.getElementById('totalRestaurants').textContent = '0';
+        document.getElementById('totalReviews').textContent = '0';
+        document.getElementById('totalCategories').textContent = '0';
+        document.getElementById('totalCities').textContent = '0';
     }
 }
 

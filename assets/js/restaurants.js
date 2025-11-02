@@ -10,6 +10,14 @@ let currentFilters = {
 document.addEventListener('DOMContentLoaded', async () => {
     initAuth();
     initMobileMenu();
+
+    // Check if we're filtering by owner (My Restaurants)
+    const params = Utils.getQueryParams();
+    if (params.owner) {
+        currentFilters.createdBy = params.owner;
+        document.querySelector('.page-title').textContent = 'Mis Restaurantes';
+    }
+
     await loadCategories();
     await loadCities();
     await loadRestaurants();
@@ -36,7 +44,10 @@ function initAuth() {
         if (authButtons) authButtons.style.display = 'none';
         if (userMenu) userMenu.style.display = 'block';
         if (userName) userName.textContent = user.username;
-        if (myRestaurantsLink) myRestaurantsLink.style.display = 'block';
+        if (myRestaurantsLink) {
+            myRestaurantsLink.style.display = 'block';
+            myRestaurantsLink.href = `restaurants.html?owner=${user.id}`;
+        }
         if (addRestaurantBtn) addRestaurantBtn.style.display = 'block';
 
         if (user.role === 'admin' && adminLink) {
