@@ -410,9 +410,6 @@ async function handleCreateReview() {
         return;
     }
 
-    console.log('Datos a enviar:', data);
-    console.log('Restaurant ID:', restaurantId);
-
     submitBtn.disabled = true;
     submitBtn.textContent = 'Publicando...';
     modalError.style.display = 'none';
@@ -422,7 +419,11 @@ async function handleCreateReview() {
 
         if (response.success) {
             Utils.showToast('Reseña publicada correctamente', 'success');
-            document.getElementById('addReviewModal').style.display = 'none';
+            const modal = document.getElementById('addReviewModal');
+            modal.style.display = 'none';
+            modal.style.visibility = 'hidden';
+            modal.style.opacity = '0';
+            document.body.style.overflow = ''; // Restaurar scroll
             document.getElementById('addReviewForm').reset();
             selectedRating = 0;
             await loadRestaurant();
@@ -502,7 +503,11 @@ async function handleCreateDish() {
 
         if (response.success) {
             Utils.showToast('Plato agregado correctamente', 'success');
-            document.getElementById('addDishModal').style.display = 'none';
+            const modal = document.getElementById('addDishModal');
+            modal.style.display = 'none';
+            modal.style.visibility = 'hidden';
+            modal.style.opacity = '0';
+            document.body.style.overflow = ''; // Restaurar scroll
             document.getElementById('addDishForm').reset();
             await loadDishes();
         }
